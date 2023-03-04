@@ -13,7 +13,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket             = "devopsbyvb"
+    bucket             = "devopsbyvb9"
     key                = "roboshop/terraform.tfstate"
     region             = "us-east-1"
     dynamodb_table     = "terraform"
