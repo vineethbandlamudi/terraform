@@ -23,6 +23,7 @@ resource "aws_route53_record" "records" {
   name                    = element(var.COMPONENTS, count.index)
   type                    = "A"
   zone_id                 = "Z02459993QYCWJEXGK996"
+  records                 =  [element(var.COMPONENTS, count.index)]
 }
 
 resource "null_resource" "run-shell-scripts" {
