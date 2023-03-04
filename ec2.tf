@@ -32,16 +32,17 @@ resource "null_resource" "run-shell-scripts" {
   count                   = local.LENGTH
   provisioner "remote-exec" {
     connection {
-      host                = element(aws_spot_instance_request.sample.*.public_ip, count.index)
+      type                = "ssh"
       user                = "centos"
       password            = "DevOps321"
+      host                = element(aws_spot_instance_request.sample.*.public_ip, count.index)
     }
 
     inline = [
-    "cd /home/centos",
-    "git clone https://github.com/vineethbandlamudi/shell-scripting.git",
-    "cd shell-scripting",
-    "sudo make ${element(var.COMPONENTS, count.index)}"
+      "cd /home/centos",
+      "git clone https://github.com/vineethbandlamudi/shell-scripting.git",
+      "cd shell-scripting",
+      "sudo make ${element(var.COMPONENTS, count.index)}"
     ]
   }
 }
