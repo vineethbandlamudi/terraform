@@ -1,12 +1,21 @@
 terraform {
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "=3.45.0"
+    aws = {
+      source          = "hashicorp/aws"
+      version         = "~> 4.0"
     }
   }
 }
 
-provider "azurerm" {
-  features {}
+provider "aws" {
+  region               = "us-east-1"
+}
+
+terraform {
+  backend "s3" {
+    bucket             = "devopsbyvb"
+    key                = "roboshop/terraform.tfstate"
+    region             = "us-east-1"
+    dynamodb_table     = "terraform"
+  }
 }
