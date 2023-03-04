@@ -23,10 +23,12 @@ resource "aws_route53_record" "records" {
   name                    = element(var.COMPONENTS, count.index)
   type                    = "A"
   zone_id                 = "Z02459993QYCWJEXGK996"
-  records                 =  [element(var.COMPONENTS, count.index)]
+  ttl                     = "300"
+  records                 = [element(aws_spot_instance_request.sample.*.private_ip, count.index)]
 }
 
 resource "null_resource" "run-shell-scripts" {
+  depends_on              = [aws_route53_record.records]
   count                   = local.LENGTH
   provisioner "remote-exec" {
     connection {
