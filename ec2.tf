@@ -18,6 +18,13 @@ resource "aws_ec2_tag" "name-tag" {
   value                   = element(var.COMPONENTS, count.index)
 }
 
+resource "aws_route53_record" "records" {
+  count                   = local.LENGTH
+  name                    = element(var.COMPONENTS, count.index)
+  type                    = "A"
+  zone_id                 = "Z02459993QYCWJEXGK996"
+}
+
 resource "null_resource" "run-shell-scripts" {
   count                   = local.LENGTH
   provisioner "remote-exec" {
@@ -30,7 +37,7 @@ resource "null_resource" "run-shell-scripts" {
     inline = [
     "cd /home/centos",
     "git clone https://github.com/vineethbandlamudi/shell-scripting.git",
-    "cd shell-scripting/roboshop",
+    "cd shell-scripting",
     "sudo make ${element(var.COMPONENTS, count.index)}"
     ]
   }
